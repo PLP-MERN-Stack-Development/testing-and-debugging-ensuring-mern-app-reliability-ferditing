@@ -1,0 +1,60 @@
+# -------------------------------
+# Node / General
+# -------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+.env
+.env.local
+.DS_Store
+
+# -------------------------------
+# Logs
+# -------------------------------
+logs
+*.log
+logs/*
+coverage/
+coverage-final.json
+
+# -------------------------------
+# Build / Output
+# -------------------------------
+dist/
+build/
+.temp/
+.cache/
+out/
+*.tsbuildinfo
+
+# -------------------------------
+# Testing
+# -------------------------------
+/coverage/
+/client/coverage/
+/server/coverage/
+
+# -------------------------------
+# Editor / IDE files
+# -------------------------------
+.vscode/
+.idea/
+*.swp
+
+# -------------------------------
+# OS / System
+# -------------------------------
+Thumbs.db
+ehthumbs.db
+
+# -------------------------------
+# Project Specific
+# -------------------------------
+/client/node_modules/
+/server/node_modules/
+/client/.env
+/server/.env
+/docs/*.png

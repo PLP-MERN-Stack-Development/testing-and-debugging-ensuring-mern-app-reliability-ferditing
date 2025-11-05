@@ -1,87 +1,88 @@
-# Testing and Debugging MERN Applications
+# MERN Bug Tracker — Test Report & Coverage
 
-This assignment focuses on implementing comprehensive testing strategies for a MERN stack application, including unit testing, integration testing, and end-to-end testing, along with debugging techniques.
+This repository contains the **MERN Bug Tracker** application with unit and integration tests for both backend and frontend.  
+Below are the test summary, coverage results, and quick reproduction steps. The screenshots are included from the `docs/` folder.
 
-## Assignment Overview
+# Test Summary (run results)
+- Test suites run (root): 12 total — **8 passed**, **4 failed**
+- Server coverage summary:
+  - **Statements:** 84.84%
+  - **Branches:** 70.51%
+  - **Functions:** 88.88%
+  - **Lines:** 90.67%
 
-You will:
-1. Set up testing environments for both client and server
-2. Write unit tests for React components and server functions
-3. Implement integration tests for API endpoints
-4. Create end-to-end tests for critical user flows
-5. Apply debugging techniques for common MERN stack issues
+> Coverage meets the required thresholds (Statements/Lines/Functions ≥ 70%). Branch coverage is **70.51%**, above the 60% minimum.
 
-## Project Structure
+# Quick reproduction steps
 
-```
-mern-testing/
-├── client/                 # React front-end
-│   ├── src/                # React source code
-│   │   ├── components/     # React components
-│   │   ├── tests/          # Client-side tests
-│   │   │   ├── unit/       # Unit tests
-│   │   │   └── integration/ # Integration tests
-│   │   └── App.jsx         # Main application component
-│   └── cypress/            # End-to-end tests
-├── server/                 # Express.js back-end
-│   ├── src/                # Server source code
-│   │   ├── controllers/    # Route controllers
-│   │   ├── models/         # Mongoose models
-│   │   ├── routes/         # API routes
-│   │   └── middleware/     # Custom middleware
-│   └── tests/              # Server-side tests
-│       ├── unit/           # Unit tests
-│       └── integration/    # Integration tests
-├── jest.config.js          # Jest configuration
-└── package.json            # Project dependencies
+1. Install dependencies
+```bash
+npm install
+npm --prefix server install
+npm --prefix client install
 ```
 
-## Getting Started
+2. Start a MongoDB instance (local or Docker). Example with Docker:
+```bash
+docker run -d --rm -p 27017:27017 --name mern-test-mongo mongo:6
+```
 
-1. Accept the GitHub Classroom assignment invitation
-2. Clone your personal repository that was created by GitHub Classroom
-3. Follow the setup instructions in the `Week6-Assignment.md` file
-4. Explore the starter code and existing tests
-5. Complete the tasks outlined in the assignment
+3. Run tests
+```bash
+# root (runs both client & server projects)
+npm test
 
-## Files Included
+# server only (with coverage)
+MONGO_URI='mongodb://127.0.0.1:27017/mern-bug-tracker-test' npm --prefix server test -- --coverage
 
-- `Week6-Assignment.md`: Detailed assignment instructions
-- Starter code for a MERN application with basic test setup:
-  - Sample React components with test files
-  - Express routes with test files
-  - Jest and testing library configurations
-  - Example tests for reference
+# client only
+npm --prefix client test -- --coverage
+```
 
-## Requirements
+4. View coverage reports
+- Server HTML report: `server/coverage/lcov-report/index.html`
+- Client HTML report: `client/coverage/lcov-report/index.html`
 
-- Node.js (v18 or higher)
-- MongoDB (local installation or Atlas account)
-- npm or yarn
-- Basic understanding of testing concepts
+# Screenshots (included in repo `docs/`)
 
-## Testing Tools
+### Coverage snapshot
+![Coverage Report](docs/testreport.png)
 
-- Jest: JavaScript testing framework
-- React Testing Library: Testing utilities for React
-- Supertest: HTTP assertions for API testing
-- Cypress/Playwright: End-to-end testing framework
-- MongoDB Memory Server: In-memory MongoDB for testing
+### Example — unauthenticated request failure
+![Unauthenticated Request](docs/NotAuthenticated.png)
 
-## Submission
+### Example — authenticated request success
+![Authenticated Request](docs/AuthenticationResolve.png)
 
-Your work will be automatically submitted when you push to your GitHub Classroom repository. Make sure to:
+# Notes on the failing tests
+Some tests assert that unauthenticated requests return **401 Unauthorized**. In development the `devAutoAuth` middleware can inject a test user and a token which may make those unauthenticated expectations return `201` or `403` depending on route and middleware ordering.
 
-1. Complete all required tests (unit, integration, and end-to-end)
-2. Achieve at least 70% code coverage for unit tests
-3. Document your testing strategy in the README.md
-4. Include screenshots of your test coverage reports
-5. Demonstrate debugging techniques in your code
+If you see the client-side tests failing due to a missing testing dependency, install the missing package:
 
-## Resources
+```bash
+npm --prefix client install --save-dev @testing-library/jest-dom
+```
 
-- [Jest Documentation](https://jestjs.io/docs/getting-started)
-- [React Testing Library Documentation](https://testing-library.com/docs/react-testing-library/intro/)
-- [Supertest Documentation](https://github.com/visionmedia/supertest)
-- [Cypress Documentation](https://docs.cypress.io/)
-- [MongoDB Testing Best Practices](https://www.mongodb.com/blog/post/mongodb-testing-best-practices) 
+Then rerun the client tests:
+```bash
+npm --prefix client test
+```
+
+# Common fixes
+- If in CI or local environment the `mongodb-memory-server` fails to start due to network or binary download issues, run tests against a local or Docker MongoDB and set `MONGO_URI`:
+```bash
+MONGO_URI='mongodb://127.0.0.1:27017/mern-bug-tracker-test' npm --prefix server test
+```
+
+
+
+# Files to include in final submission
+- `server/` — server code, tests, jest setup
+- `client/` — React front-end, unit & integration tests
+- `docs/bugsreport.png`
+- `docs/NotAuthenticate.png`
+- `docs/AuthenticationResolve.png`
+- `README.md` (this file)
+
+---
+

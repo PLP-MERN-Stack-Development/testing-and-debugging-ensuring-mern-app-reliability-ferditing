@@ -1,0 +1,29 @@
+{
+  "name": "mern-testing-server",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon --watch src --exec \"node src/server.js\"",
+    "test": "cross-env NODE_ENV=test jest --runInBand --config ../jest.config.js",
+    "lint": "echo \"Add your linter command here\""
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.8.7"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^29.6.1",
+    "mongodb-memory-server": "^8.11.0",
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

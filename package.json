@@ -1,0 +1,26 @@
+{
+  "name": "mern-testing-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "postinstall": "npm --prefix server install && npm --prefix client install",
+    "install:all": "npm run postinstall",
+    "test": "npx jest --config=jest.config.js --runInBand",
+    "test:server": "npm --prefix server test",
+    "test:client": "npm --prefix client test",
+    "start": "concurrently \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "start:server": "npm --prefix server run dev",
+    "start:client": "npm --prefix client run dev"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "concurrently": "^8.2.0",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
+    "supertest": "^7.1.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
